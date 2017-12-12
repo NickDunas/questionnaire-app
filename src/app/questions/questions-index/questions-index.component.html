@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-md-8">
+    <h5>
+      {{ section.name }}
+      <small>
+        Questions list
+      </small>
+    </h5>
+  </div>
+
+  <div class="col-md-4">
+    <button
+        (click)="onNewQuestion()"
+        class="btn btn-sm btn-primary float-right">
+      <i class="fa fa-magic mr-1"></i>
+      New
+    </button>
+  </div>
+</div>
+
+<hr class="mt-1">
+
+<table
+    *ngIf="section.questions.length > 0"
+    dnd-sortable-container
+    [sortableData]="section.questions"
+    class="table table-bordered table-hover">
+  <caption>
+    <i class="fa fa-info-circle mr-1"></i>
+    <i>Drag and drop a question row to change order.</i>
+  </caption>
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Type</th>
+    <th scope="col">Text</th>
+    <th scope="col">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr
+      *ngFor="let item of section.questions | sortBy: 'order'; let i = index;"
+      dnd-sortable
+      [sortableIndex]="i"
+      (onDragEnd)="onItemDragEnd()">
+    <th scope="row">{{ item.id }}</th>
+    <td>{{ item.input_type | inputType }}</td>
+    <td>{{ item.text }}</td>
+    <td>
+      <button
+          (click)="onEditQuestion(item)"
+          class="btn btn-sm btn-info">
+        <i class="fa fa-edit mr-1"></i>
+        Edit
+      </button>
+      <button
+          (click)="onDeleteQuestion(item)"
+          class="btn btn-sm btn-danger">
+        <i *ngIf="!item.syncing" class="fa fa-trash mr-1"></i>
+        <i *ngIf="item.syncing" class="fa fa-spin fa-spinner mr-1"></i>
+        Delete
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div *ngIf="section.questions.length == 0" class="alert alert-info">
+  <i class="fa fa-info mr-1"></i>
+  No questions found. Start by adding one by clicking the <i class="text-primary">New</i> button on the top right corner.
+</div>

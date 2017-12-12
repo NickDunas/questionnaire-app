@@ -1,0 +1,13 @@
+<section *ngIf="!loadingResource">
+  <h5>
+    {{ item?.title }}
+  </h5>
+
+  <p>
+    {{ item?.description }}
+  </p>
+</section>
+
+<app-sections-index *ngIf="item && !loadingResource" [questionnaire]="item"></app-sections-index>
+
+<app-loader *ngIf="loadingResource"></app-loader>

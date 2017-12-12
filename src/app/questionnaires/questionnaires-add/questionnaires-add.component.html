@@ -1,0 +1,56 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    Create a new questionnaire
+  </h5>
+  <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="onCloseModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div [formGroup]="resourceFormGroup" class="modal-body">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input
+        formControlName="title"
+        [ngClass]="{'is-invalid': !resourceFormGroup.controls['title'].valid && resourceFormGroup.controls['title'].touched}"
+        type="text"
+        name="title"
+        id="title"
+        class="form-control is-invalid">
+    <div class="invalid-feedback">
+      * This field is required.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea
+        formControlName="description"
+        name="description"
+        id="description"
+        cols="30"
+        rows="10"
+        class="form-control"></textarea>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button
+      type="submit"
+      class="btn btn-sm btn-primary"
+      (click)="onSaveQuestionnaire()"
+      [disabled]="!resourceFormGroup.valid || syncingResource">
+    <i *ngIf="syncingResource" class="fa fa-spin fa-spinner mr-1"></i>
+    Save
+  </button>
+  <button
+      type="submit"
+      class="btn btn-sm btn-secondary"
+      (click)="onCloseModal()">
+    Close
+  </button>
+</div>

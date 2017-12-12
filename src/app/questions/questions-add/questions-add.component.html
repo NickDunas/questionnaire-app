@@ -1,0 +1,75 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    Create a new question
+  </h5>
+  <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="onCloseModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div [formGroup]="resourceFormGroup" class="modal-body">
+  <div class="form-group">
+    <label for="input_type">Type</label>
+    <select
+        formControlName="input_type"
+        [ngClass]="{'is-invalid': !resourceFormGroup.controls['input_type'].valid && resourceFormGroup.controls['input_type'].touched}"
+        name="input_type"
+        id="input_type"
+        class="form-control is-invalid">
+      <option
+          *ngFor="let inputType of inputTypes"
+          value="{{ inputType.value }}">
+        {{ inputType.name }}
+      </option>
+    </select>
+    <div class="invalid-feedback">
+      * This field is required.
+    </div>
+  </div>
+
+  <div *ngIf="resourceFormGroup.controls['input_type'].value > 1" class="form-group">
+    <label for="available_values">Available values</label>
+    <input
+        formControlName="available_values"
+        type="text"
+        name="available_values"
+        id="available_values"
+        class="form-control"
+        aria-describedby="availableValuesHelpBlock">
+    <small id="availableValuesHelpBlock" class="form-text text-muted">
+      * Separate the available values with commas (example: <code>first value 1,some more values,last value</code>).
+    </small>
+  </div>
+
+  <div class="form-group">
+    <label for="text">Text</label>
+    <textarea
+        formControlName="text"
+        name="text"
+        id="text"
+        cols="30"
+        rows="10"
+        class="form-control"></textarea>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button
+      type="submit"
+      class="btn btn-sm btn-primary"
+      (click)="onSaveQuestion()"
+      [disabled]="!resourceFormGroup.valid || syncingResource">
+    <i *ngIf="syncingResource" class="fa fa-spin fa-spinner mr-1"></i>
+    Save
+  </button>
+  <button
+      type="submit"
+      class="btn btn-sm btn-secondary"
+      (click)="onCloseModal()">
+    Close
+  </button>
+</div>

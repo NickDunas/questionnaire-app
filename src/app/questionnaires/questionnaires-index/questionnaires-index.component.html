@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-md-8">
+    <h5>
+      Questionnaires
+      <small>
+        list
+      </small>
+    </h5>
+  </div>
+
+  <div class="col-md-4">
+    <button
+        (click)="onNewQuestionnaire()"
+        class="btn btn-sm btn-primary float-right">
+      <i class="fa fa-magic mr-1"></i>
+      New
+    </button>
+  </div>
+</div>
+
+<hr class="mt-1">
+
+<table *ngIf="!loadingResources && collection.length > 0" class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of collection">
+      <th scope="row">{{ item.id }}</th>
+      <td>{{ item.title }}</td>
+      <td>
+        <button
+            [routerLink]="['/questionnaires/' + item?.id]"
+            class="btn btn-sm btn-primary">
+          <i class="fa fa-eye mr-1"></i>
+          View
+        </button>
+        <button
+            (click)="onEditQuestionnaire(item)"
+            class="btn btn-sm btn-info">
+          <i class="fa fa-edit mr-1"></i>
+          Edit
+        </button>
+        <button
+            (click)="onDeleteQuestionnaire(item)"
+            class="btn btn-sm btn-danger">
+          <i *ngIf="!item.syncing" class="fa fa-trash mr-1"></i>
+          <i *ngIf="item.syncing" class="fa fa-spin fa-spinner mr-1"></i>
+          Delete
+        </button>
+        <button
+            *ngIf="item.sections.length > 0"
+            [routerLink]="['/questionnaires/launch/' + item?.id]"
+            class="btn btn-sm btn-primary">
+          <i class="fa fa-rocket mr-1"></i>
+          Launch
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!loadingResources && collection.length == 0" class="alert alert-info">
+  <i class="fa fa-info mr-1"></i>
+  No questionnaires found. Start by adding one by clicking the <i class="text-primary">New</i> button on the top right corner.
+</div>
+
+<app-loader *ngIf="loadingResources"></app-loader>
